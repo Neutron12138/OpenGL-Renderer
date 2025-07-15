@@ -6,6 +6,7 @@ namespace gl_renderer
 {
     BASE_DECLARE_REF_TYPE(Visual);
     class Renderer;
+    class Camera;
 
     /// @brief 可视的对象基类
     class Visual : public base::PolymorphicObject
@@ -46,6 +47,18 @@ namespace gl_renderer
             if (m_is_visible)
                 _draw(renderer);
         }
+
+        /// @brief 获取模型矩阵
+        /// @return 模型矩阵
+        virtual const glm::mat4 &get_model_matrix() const = 0;
+
+        /// @brief 获取模型视图投影矩阵
+        /// @return 模型视图投影矩阵
+        virtual const glm::mat4 &get_MVP_matrix() const = 0;
+
+        /// @brief 更新矩阵
+        /// @param camera 相机
+        virtual void update_matrix(Camera &camera) const = 0;
     };
 
 } // namespace gl_renderer

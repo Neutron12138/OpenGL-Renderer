@@ -7,9 +7,9 @@
 class MainLoop : public glfw_wrapper::MainLoop
 {
 private:
-    gl_renderer::DefaultRendererRef renderer;
+    gl_renderer::Default2DRendererRef renderer;
     gl_renderer::SpriteRef sprite;
-    glm::mat4 MVP;
+    gl_renderer::Camera2DRef camera;
 
 protected:
     void _initialize() override
@@ -19,13 +19,24 @@ protected:
         glViewport(0, 0, 1152, 648);
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-        renderer = std::make_shared<gl_renderer::DefaultRenderer>();
+        camera = std::make_shared<gl_renderer::Camera2D>();
+        camera->set_screen_size(glm::vec2(1152, 648));
+        camera->update();
+
+        renderer = std::make_shared<gl_renderer::Default2DRenderer>();
+        renderer->set_camera(camera);
 
         sprite = std::make_shared<gl_renderer::Sprite>();
         sprite->load_image("assets/wall.jpg");
+        sprite->get_transform().set_origin(glm::vec2(512.0f, 512.0f));
+        sprite->update_matrix(*camera);
+    }
 
-        MVP = glm::ortho(0.0f, 1152.0f, 648.0f, 0.0f);
-        renderer->get_default_sprite_material()->as<gl_renderer::DefaultSpriteMaterial>()->set_MVP(MVP);
+    void _update(double delta) override
+    {
+        sprite->get_transform().rotate(delta);
+        sprite->get_transform().update();
+        sprite->update_matrix(*camera);
     }
 
     void _draw() override

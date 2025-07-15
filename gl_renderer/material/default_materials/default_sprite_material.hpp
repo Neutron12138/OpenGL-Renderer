@@ -1,18 +1,15 @@
 #pragma once
 
-#include "../material.hpp"
+#include "../default_material.hpp"
 
 namespace gl_renderer
 {
     BASE_DECLARE_REF_TYPE(DefaultSpriteMaterial);
 
     /// @brief 默认精灵材质，不允许修改
-    class DefaultSpriteMaterial : public Material
+    class DefaultSpriteMaterial : public DefaultMaterial
     {
     public:
-        static constexpr inline GLint MVP_LOCATION = 0;
-        static constexpr inline GLint TEXTURE_LOCATION = 1;
-
         /// @brief 顶点着色器代码
         static constexpr inline const char *VERTEX_SHADER_SOURCE =
             "#version 450 core\n"
@@ -37,47 +34,12 @@ namespace gl_renderer
             "   o_color = texture(u_texture, v_tex_coord);\n"
             "}\n";
 
-    private:
-        /// @brief 着色器程序
-        gl_wrapper::Program m_program;
-
-    private:
-        void _create()
-        {
-            gl_wrapper::Shader vshader(GL_VERTEX_SHADER);
-            vshader.set_source(VERTEX_SHADER_SOURCE);
-            vshader.compile_shader();
-            gl_wrapper::Shader fshader(GL_FRAGMENT_SHADER);
-            fshader.set_source(FRAGMENT_SHADER_SOURCE);
-            fshader.compile_shader();
-            m_program.attach_shader(vshader);
-            m_program.attach_shader(fshader);
-            m_program.link_program();
-        }
-
     public:
-        inline DefaultSpriteMaterial() { _create(); }
+        inline DefaultSpriteMaterial() : DefaultMaterial(VERTEX_SHADER_SOURCE, FRAGMENT_SHADER_SOURCE) {}
         inline ~DefaultSpriteMaterial() override = default;
 
     public:
-        inline bool is_valid() const override { return true; }
-        inline void bind() const override { m_program.use(); }
-        inline void set_MVP(const glm::mat4 &value) { m_program.set_uniform(MVP_LOCATION, value); }
-        inline void set_texture_unit(GLuint value) { m_program.set_uniform(TEXTURE_LOCATION, value); }
-
-        void set_uniform(const std::string &name, const glm::mat4 &value)
-        {
-            if (name != "u_MVP")
-                throw BASE_MAKE_RUNTIME_ERROR("\"", name, "\" is not a valid uniform name");
-            set_MVP(value);
-        }
-
-        void set_uniform(const std::string &name, GLuint value)
-        {
-            if (name != "u_texture")
-                throw BASE_MAKE_RUNTIME_ERROR("\"", name, "\" is not a valid uniform name");
-            set_texture_unit(value);
-        }
+        inline void set_texture_unit(GLuint value) { m_program.set_uniform(static_cast<GLint>(UniformLocation::Texture), value); }
     };
 
 } // namespace gl_renderer

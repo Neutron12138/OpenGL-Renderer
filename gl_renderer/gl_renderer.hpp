@@ -6,9 +6,19 @@
 
 #include "base/resource.hpp"
 
+// matrix
+
+#include "matrix/transform_2d.hpp"
+
+// camera
+
+#include "camera/camera.hpp"
+#include "camera/camera_2d.hpp"
+
 // shader
 
 #include "material/material.hpp"
+#include "material/default_material.hpp"
 #include "material/shader_material.hpp"
 #include "material/default_materials/default_sprite_material.hpp"
 
@@ -30,7 +40,7 @@
 // renderer
 
 #include "renderer/renderer.hpp"
-#include "renderer/default_renderer.hpp"
+#include "renderer/default_2d_renderer.hpp"
 
 // visual
 

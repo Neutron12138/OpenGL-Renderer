@@ -21,6 +21,10 @@ namespace gl_renderer
     public:
         /// @brief 绑定材质
         virtual void bind() const = 0;
+
+        /// @brief 设置MVP矩阵
+        /// @param MVP MVP矩阵
+        virtual void set_MVP_matrix(const glm::mat4 &MVP) = 0;
     };
 
 } // namespace gl_renderer

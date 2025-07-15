@@ -12,9 +12,16 @@ namespace gl_renderer
             throw BASE_MAKE_RUNTIME_ERROR("Sprite has not been created yet");
 
         if (m_material)
+        {
             m_material->bind();
+            m_material->set_MVP_matrix(m_MVP_cache);
+        }
         else
-            renderer.get_default_sprite_material()->bind();
+        {
+            auto material = renderer.get_default_sprite_material();
+            material->bind();
+            material->set_MVP_matrix(m_MVP_cache);
+        }
 
         m_texture->bind();
         m_mesh->bind();

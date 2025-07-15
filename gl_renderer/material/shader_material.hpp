@@ -44,6 +44,7 @@ namespace gl_renderer
 
     public:
         void bind() const override;
+        inline void set_MVP_matrix(const glm::mat4 &MVP) override { set_uniform("u_MVP", MVP); }
         GLint get_uniform_location(const std::string &name) const;
 
     public:

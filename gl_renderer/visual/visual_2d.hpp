@@ -4,6 +4,7 @@
 #include <base/core/type.hpp>
 #include "visual.hpp"
 #include "../matrix/transform_2d.hpp"
+#include "../camera/camera_2d.hpp"
 
 namespace gl_renderer
 {
@@ -24,6 +25,7 @@ namespace gl_renderer
     protected:
         /// @brief 变换
         Transform2D m_transform;
+        mutable glm::mat4 m_MVP_cache = glm::mat4(1.0f);
 
     public:
         inline Visual2D() = default;
@@ -49,6 +51,11 @@ namespace gl_renderer
             m_z_index = z_index;
             _on_z_index_changed(old_z_index, m_z_index);
         }
+
+    public:
+        inline const glm::mat4 &get_model_matrix() const override { return m_transform.get_matrix(); }
+        inline const glm::mat4 &get_MVP_matrix() const override { return m_MVP_cache; }
+        inline void update_matrix(Camera &camera) const override { m_MVP_cache = camera.get_VP_matrix() * m_transform.get_matrix(); }
     };
 
 } // namespace gl_renderer
