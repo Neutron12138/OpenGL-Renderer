@@ -44,6 +44,9 @@ protected:
         glClear(GL_COLOR_BUFFER_BIT);
         renderer->draw(*sprite);
     }
+
+public:
+    MainLoop() { m_is_opengl_debug_context_enabled = true; }
 };
 
 int main()
@@ -52,6 +55,3 @@ int main()
     app.run();
     return app.get_exit_code();
 }
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>

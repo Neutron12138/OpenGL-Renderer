@@ -23,15 +23,15 @@ namespace gl_renderer
         MaterialRef m_material;
 
     public:
-        inline Sprite() = default;
-        inline ~Sprite() = default;
+        Sprite() = default;
+        ~Sprite() = default;
 
     public:
-        inline const glm::ivec2 &get_size() const { return m_size; }
-        inline const gl_wrapper::Texture2DRef &get_texture() const { return m_texture; }
-        inline const QuadMeshRef &get_mesh() const { return m_mesh; }
-        inline const MaterialRef &get_material() const { return m_material; }
-        inline void set_material(const MaterialRef &material) { m_material = material; }
+        const glm::ivec2 &get_size() const;
+        const gl_wrapper::Texture2DRef &get_texture() const;
+        const QuadMeshRef &get_mesh() const;
+        const MaterialRef &get_material() const;
+        void set_material(const MaterialRef &material);
 
     protected:
         void _draw(const Renderer &renderer) const override;

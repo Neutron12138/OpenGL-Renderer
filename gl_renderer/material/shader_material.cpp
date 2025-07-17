@@ -2,12 +2,22 @@
 
 namespace gl_renderer
 {
+    ShaderMaterial::ShaderMaterial(const gl_wrapper::ProgramRef &program) : m_program(program) {}
+    ShaderMaterial::ShaderMaterial(const gl_wrapper::ShaderRef &vshader, const gl_wrapper::ShaderRef &fshader) { create(vshader, fshader); }
+    ShaderMaterial::ShaderMaterial(const std::string &vsource, const std::string &fsource) { create(vsource, fsource); }
+    ShaderMaterial::ShaderMaterial(ShaderMaterial &&from)
+        : m_program(std::move(from.m_program)),
+          m_locations(std::move(from.m_locations)) {}
+
     ShaderMaterial &ShaderMaterial::operator=(ShaderMaterial &&from)
     {
         m_program = std::move(from.m_program);
         m_locations = std::move(from.m_locations);
         return *this;
     }
+
+    const gl_wrapper::ProgramRef &ShaderMaterial::get_program() const { return m_program; }
+    const UniformLocationHashMap &ShaderMaterial::get_locations() const { return m_locations; }
 
     bool ShaderMaterial::is_valid() const
     {
@@ -32,12 +42,10 @@ namespace gl_renderer
 
     void ShaderMaterial::create(const std::string &vsource, const std::string &fsource)
     {
-        gl_wrapper::ShaderRef vshader = std::make_shared<gl_wrapper::Shader>(GL_VERTEX_SHADER);
-        vshader->set_source(std::move(vsource));
-        vshader->compile_shader();
-        gl_wrapper::ShaderRef fshader = std::make_shared<gl_wrapper::Shader>(GL_FRAGMENT_SHADER);
-        fshader->set_source(std::move(fsource));
-        fshader->compile_shader();
+        gl_wrapper::ShaderRef vshader = std::make_shared<gl_wrapper::Shader>(
+            gl_wrapper::Shader::ShaderType::Vertex, vsource);
+        gl_wrapper::ShaderRef fshader = std::make_shared<gl_wrapper::Shader>(
+            gl_wrapper::Shader::ShaderType::Fragment, fsource);
         create(vshader, fshader);
     }
 
@@ -56,6 +64,8 @@ namespace gl_renderer
 
         m_program->use();
     }
+
+    void ShaderMaterial::set_MVP_matrix(const glm::mat4 &MVP) { set_uniform("u_MVP", MVP); }
 
     GLint ShaderMaterial::get_uniform_location(const std::string &name) const
     {

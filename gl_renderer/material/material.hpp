@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gl_wrapper/shader/shader.hpp>
 #include <gl_wrapper/shader/program.hpp>
 #include "../base/resource.hpp"
 
@@ -11,12 +12,12 @@ namespace gl_renderer
     class Material : public Resource
     {
     public:
-        inline Material() = default;
-        inline ~Material() override = default;
+        Material() = default;
+        ~Material() override = default;
         BASE_DELETE_COPY_FUNCTION(Material);
 
     public:
-        inline base::Int64 get_resource_type() const override { return static_cast<base::Int64>(ResourceType::Material); }
+        base::Int64 get_resource_type() const override;
 
     public:
         /// @brief 绑定材质

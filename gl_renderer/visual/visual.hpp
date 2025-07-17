@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <base/core/polymorphic_object.hpp>
 
 namespace gl_renderer
@@ -16,37 +17,26 @@ namespace gl_renderer
         bool m_is_visible = true;
 
     public:
-        inline Visual() = default;
-        inline ~Visual() override = default;
+        Visual() = default;
+        ~Visual() override = default;
 
     protected:
         /// @brief 当可见性改变时
-        virtual void _on_visibility_changed() {}
+        virtual void _on_visibility_changed();
 
         /// @brief 绘制
         /// @param renderer 渲染器
         virtual void _draw(const Renderer &renderer) const = 0;
 
     public:
-        inline bool is_visible() const { return m_is_visible; }
-        inline void show() { set_visibility(true); }
-        inline void hide() { set_visibility(false); }
-        void set_visibility(bool is_visible)
-        {
-            if (m_is_visible == is_visible)
-                return;
-
-            m_is_visible = is_visible;
-            _on_visibility_changed();
-        }
+        bool is_visible() const;
+        void show();
+        void hide();
+        void set_visibility(bool is_visible);
 
     public:
         /// @brief 请求进行绘制
-        void request_draw(const Renderer &renderer) const
-        {
-            if (m_is_visible)
-                _draw(renderer);
-        }
+        void request_draw(const Renderer &renderer) const;
 
         /// @brief 获取模型矩阵
         /// @return 模型矩阵

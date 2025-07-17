@@ -28,34 +28,26 @@ namespace gl_renderer
         mutable glm::mat4 m_MVP_cache = glm::mat4(1.0f);
 
     public:
-        inline Visual2D() = default;
-        inline ~Visual2D() = default;
+        Visual2D() = default;
+        ~Visual2D() = default;
 
     protected:
         /// @brief 当Z索引改变时
         /// @param old_z_index 旧Z索引
         /// @param new_z_index 新Z索引
-        virtual void _on_z_index_changed(base::Int16 old_z_index, base::Int16 new_z_index) {}
+        virtual void _on_z_index_changed(base::Int16 old_z_index, base::Int16 new_z_index);
 
     public:
-        inline Transform2D &get_transform() { return m_transform; }
-        inline const Transform2D &get_transform() const { return m_transform; }
-        inline void set_transform(const Transform2D &transform) { m_transform = transform; }
-        inline base::Int16 get_z_index() const { return m_z_index; }
-        void set_z_index(base::Int16 z_index)
-        {
-            if (m_z_index == z_index)
-                return;
-
-            base::Int16 old_z_index = m_z_index;
-            m_z_index = z_index;
-            _on_z_index_changed(old_z_index, m_z_index);
-        }
+        Transform2D &get_transform();
+        const Transform2D &get_transform() const;
+        void set_transform(const Transform2D &transform);
+        base::Int16 get_z_index() const;
+        void set_z_index(base::Int16 z_index);
 
     public:
-        inline const glm::mat4 &get_model_matrix() const override { return m_transform.get_matrix(); }
-        inline const glm::mat4 &get_MVP_matrix() const override { return m_MVP_cache; }
-        inline void update_matrix(Camera &camera) const override { m_MVP_cache = camera.get_VP_matrix() * m_transform.get_matrix(); }
+        const glm::mat4 &get_model_matrix() const override;
+        const glm::mat4 &get_MVP_matrix() const override;
+        void update_matrix(Camera &camera) const override;
     };
 
 } // namespace gl_renderer

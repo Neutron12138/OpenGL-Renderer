@@ -1,7 +1,6 @@
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#define GLFW_WRAPPER_ENABLE_GL_DEBUG true
 #include <glfw_wrapper/glfw_wrapper.hpp>
 #include <gl_wrapper/gl_wrapper.hpp>
 #include "../gl_renderer/gl_renderer.hpp"
@@ -23,12 +22,14 @@ private:
             throw "Failed to load image";
 
         texture = std::make_shared<gl_wrapper::Texture2D>();
+        texture->create();
         texture->set_wrap_s();
         texture->set_wrap_t();
         texture->set_min_filter();
         texture->set_mag_filter();
-        texture->set_storage(1, GL_RGB8, width, height);
-        texture->set_sub_image(0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+        texture->set_storage(1, gl_wrapper::InternalFormat::RGB8, width, height);
+        texture->set_sub_image(0, width, height, gl_wrapper::BaseFormat::RGB,
+                               gl_wrapper::DataType::UnsignedByte, pixels);
 
         stbi_image_free(pixels);
     }
@@ -56,6 +57,9 @@ protected:
         texture->bind();
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
+
+public:
+    MainLoop() { m_is_opengl_debug_context_enabled = true; }
 };
 
 int main()

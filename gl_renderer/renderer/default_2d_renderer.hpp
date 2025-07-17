@@ -16,16 +16,16 @@ namespace gl_renderer
         MaterialRef m_default_sprite_material = std::make_shared<DefaultSpriteMaterial>();
 
     public:
-        inline Default2DRenderer() = default;
-        inline ~Default2DRenderer() override = default;
+        Default2DRenderer() = default;
+        ~Default2DRenderer() override = default;
 
     public:
-        inline const CameraRef &get_camera() const { return m_camera; }
-        inline void set_camera(const Camera2DRef &camera) { m_camera = camera; }
+        const CameraRef &get_camera() const;
+        void set_camera(const Camera2DRef &camera);
 
     public:
-        inline const CameraRef &get_current_camera() const override { return m_camera; }
-        inline const MaterialRef &get_default_sprite_material() const override { return m_default_sprite_material; }
+        const CameraRef &get_current_camera() const override;
+        const MaterialRef &get_default_sprite_material() const override;
     };
 
 } // namespace gl_renderer

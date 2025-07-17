@@ -13,14 +13,11 @@ namespace gl_renderer
     class Renderer : public base::PolymorphicObject
     {
     public:
-        inline Renderer() = default;
-        inline ~Renderer() override = default;
+        Renderer() = default;
+        ~Renderer() override = default;
 
     public:
-        virtual void draw(const Visual &visual) const
-        {
-            visual.request_draw(*this);
-        }
+        virtual void draw(const Visual &visual) const;
 
     public:
         /// @brief 获取当前活跃的相机

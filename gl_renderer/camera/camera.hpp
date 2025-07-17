@@ -11,8 +11,8 @@ namespace gl_renderer
     class Camera : public base::PolymorphicObject
     {
     public:
-        inline Camera() = default;
-        inline ~Camera() override = default;
+        Camera() = default;
+        ~Camera() override = default;
 
     public:
         /// @brief 获取投影矩阵

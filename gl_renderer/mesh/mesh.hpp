@@ -16,12 +16,12 @@ namespace gl_renderer
     class Mesh : public Resource
     {
     public:
-        inline Mesh() = default;
-        inline ~Mesh() override = default;
+        Mesh() = default;
+        ~Mesh() override = default;
         BASE_DELETE_COPY_FUNCTION(Mesh);
 
     public:
-        inline base::Int64 get_resource_type() const override { return static_cast<base::Int64>(ResourceType::Mesh); }
+        base::Int64 get_resource_type() const override;
 
     public:
         /// @brief 绑定网格

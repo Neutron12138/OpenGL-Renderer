@@ -29,38 +29,33 @@ namespace gl_renderer
         gl_wrapper::BufferRef m_EBO;
 
     public:
-        inline Mesh2D() = default;
-        inline Mesh2D(Mesh2D &&from)
-            : m_vertices(std::move(from.m_vertices)),
-              m_indices(std::move(from.m_indices)),
-              m_VAO(std::exchange(from.m_VAO, nullptr)),
-              m_VBO(std::exchange(from.m_VBO, nullptr)),
-              m_EBO(std::exchange(from.m_EBO, nullptr)) {}
-        inline ~Mesh2D() override = default;
+        Mesh2D() = default;
+        Mesh2D(Mesh2D &&from);
+        ~Mesh2D() override = default;
         BASE_DELETE_COPY_FUNCTION(Mesh2D);
 
     public:
         Mesh2D &operator=(Mesh2D &&from);
-        inline const Vertex2DArray &get_vertices() const { return m_vertices; }
-        inline const VertexIndexArray &get_indices() const { return m_indices; }
-        inline const gl_wrapper::VertexArrayRef &get_VAO() const { return m_VAO; }
-        inline const gl_wrapper::BufferRef &get_VBO() const { return m_VBO; }
-        inline const gl_wrapper::BufferRef &get_EBO() const { return m_EBO; }
+        const Vertex2DArray &get_vertices() const;
+        const VertexIndexArray &get_indices() const;
+        const gl_wrapper::VertexArrayRef &get_VAO() const;
+        const gl_wrapper::BufferRef &get_VBO() const;
+        const gl_wrapper::BufferRef &get_EBO() const;
 
     public:
-        inline bool is_support_3d() const override { return false; }
-        inline bool has_vertex_indices() const override { return m_indices.size(); }
-        inline const void *get_raw_vertices() const override { return m_vertices.data(); }
-        inline const void *get_raw_indices() const override { return m_indices.data(); }
-        inline base::Size get_vertex_count() const override { return m_vertices.size(); }
-        inline base::Size get_index_count() const override { return m_indices.size(); }
+        bool is_support_3d() const override;
+        bool has_vertex_indices() const override;
+        const void *get_raw_vertices() const override;
+        const void *get_raw_indices() const override;
+        base::Size get_vertex_count() const override;
+        base::Size get_index_count() const override;
         bool is_valid() const override;
 
     public:
-        const Vertex2D &get_vertex(base::Size index) const { return m_vertices[index]; }
-        const Vertex2D &get_vertex_safe(base::Size index) const { return m_vertices.at(index); }
-        VertexIndex get_index(base::Size index) const { return m_indices[index]; }
-        VertexIndex get_index_safe(base::Size index) const { return m_indices.at(index); }
+        const Vertex2D &get_vertex(base::Size index) const;
+        const Vertex2D &get_vertex_safe(base::Size index) const;
+        VertexIndex get_index(base::Size index) const;
+        VertexIndex get_index_safe(base::Size index) const;
 
     public:
         void bind() const override;

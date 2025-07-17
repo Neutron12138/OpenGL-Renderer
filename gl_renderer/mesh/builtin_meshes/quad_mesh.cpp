@@ -2,11 +2,26 @@
 
 namespace gl_renderer
 {
+    QuadMesh::QuadMesh(const glm::vec2 &size)
+        : m_size(size) { create(); }
+    QuadMesh::QuadMesh(QuadMesh &&from)
+        : Mesh2D(std::move(from)),
+          m_size(std::exchange(from.m_size, {})) {}
+
     QuadMesh &QuadMesh::operator=(QuadMesh &&from)
     {
         Mesh2D::operator=(std::move(from));
         m_size = std::exchange(from.m_size, {});
         return *this;
+    }
+
+    bool QuadMesh::is_dirty() const { return m_is_dirty; }
+    const glm::vec2 &QuadMesh::get_size() const { return m_size; }
+
+    void QuadMesh::set_size(const glm::vec2 &size)
+    {
+        m_size = size;
+        m_is_dirty = true;
     }
 
     void QuadMesh::_update_vertices()

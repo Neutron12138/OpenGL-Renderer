@@ -26,8 +26,8 @@ namespace gl_renderer
         };
 
     public:
-        inline Resource() = default;
-        inline ~Resource() override = default;
+        Resource() = default;
+        ~Resource() override = default;
         BASE_DELETE_COPY_FUNCTION(Resource);
     };
 

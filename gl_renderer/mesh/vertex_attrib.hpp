@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gl_wrapper/base/gl_loader.hpp>
+#include <gl_wrapper/base/enums.hpp>
 
 namespace gl_renderer
 {
@@ -11,19 +12,19 @@ namespace gl_renderer
         /// @brief 属性索引
         const GLuint attribindex;
         /// @brief 尺寸
-        const GLint size;
+        const GLint vertex_size;
         /// @brief 类型
-        const GLenum type;
+        const gl_wrapper::DataType data_type;
         /// @brief 相对偏移量
-        const GLuint relativeoffset;
+        const GLuint relative_offset;
 
     public:
-        constexpr VertexAttrib(GLuint idx, GLint s, GLenum t, GLuint offset)
-            : attribindex(idx),
-              size(s),
-              type(t),
-              relativeoffset(offset) {}
-        inline ~VertexAttrib() = default;
+        inline constexpr VertexAttrib(GLuint index, GLint size, gl_wrapper::DataType type, GLuint offset)
+            : attribindex(index),
+              vertex_size(size),
+              data_type(type),
+              relative_offset(offset) {}
+        ~VertexAttrib() = default;
     };
 
 } // namespace gl_renderer

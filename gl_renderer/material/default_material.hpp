@@ -30,27 +30,15 @@ namespace gl_renderer
         gl_wrapper::Program m_program;
 
     protected:
-        void _create(const std::string &vsource, const std::string &fsource)
-        {
-            gl_wrapper::Shader vshader(GL_VERTEX_SHADER);
-            vshader.set_source(vsource);
-            vshader.compile_shader();
-            gl_wrapper::Shader fshader(GL_FRAGMENT_SHADER);
-            fshader.set_source(fsource);
-            fshader.compile_shader();
-            m_program.attach_shader(vshader);
-            m_program.attach_shader(fshader);
-            m_program.link_program();
-        }
+        DefaultMaterial(const std::string &vsource, const std::string &fsource);
 
     public:
-        inline DefaultMaterial(const std::string &vsource, const std::string &fsource) { _create(vsource, fsource); }
-        inline ~DefaultMaterial() override = default;
+        ~DefaultMaterial() override = default;
 
     public:
-        inline bool is_valid() const override { return true; }
-        inline void bind() const override { m_program.use(); }
-        inline void set_MVP_matrix(const glm::mat4 &MVP) override { m_program.set_uniform(static_cast<GLint>(UniformLocation::MVP), MVP); }
+        bool is_valid() const override;
+        void bind() const override;
+        void set_MVP_matrix(const glm::mat4 &MVP) override;
 
         template <typename T>
         void set_uniform(const std::string &name, const T &value)

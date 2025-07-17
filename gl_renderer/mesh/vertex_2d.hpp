@@ -21,11 +21,11 @@ namespace gl_renderer
         };
 
     public:
-        inline Vertex2D() = default;
-        constexpr Vertex2D(const glm::vec2 &pos, const glm::vec2 &uv = {})
+        Vertex2D() = default;
+        inline constexpr Vertex2D(const glm::vec2 &pos, const glm::vec2 &uv = {})
             : position(pos),
               tex_coord(uv) {}
-        inline ~Vertex2D() = default;
+        ~Vertex2D() = default;
     };
 
     using Vertex2DArray = std::vector<Vertex2D>;
@@ -37,9 +37,9 @@ namespace gl_renderer
     public:
         using VertexType = Vertex2D;
 
-        static constexpr VertexAttrib POSITION{0, 2, GL_FLOAT, 0};
-        static constexpr VertexAttrib TEXCOORD{1, 2, GL_FLOAT, sizeof(glm::vec2)};
-        static constexpr VertexAttrib UV{1, 2, GL_FLOAT, sizeof(glm::vec2)};
+        static constexpr VertexAttrib POSITION{0, 2, gl_wrapper::DataType::Float, 0};
+        static constexpr VertexAttrib TEXCOORD{1, 2, gl_wrapper::DataType::Float, sizeof(glm::vec2)};
+        static constexpr VertexAttrib UV{1, 2, gl_wrapper::DataType::Float, sizeof(glm::vec2)};
     };
 
 } // namespace gl_renderer
